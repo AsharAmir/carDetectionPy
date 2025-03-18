@@ -1,0 +1,37 @@
+name: Build macOS App
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Download YOLO model (yolov8x.pt)
+        run: |
+          mkdir -p models
+          curl -L -o models/yolov8x.pt "https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8x.pt"
+
+      - name: Build macOS App
+        run: |
+          pyinstaller --onefile --windowed your_script.py
+
+      - name: Upload macOS App
+        uses: actions/upload-artifact@v3
+        with:
+          name: macOS-App
+          path: dist/
