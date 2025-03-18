@@ -28,7 +28,7 @@ jobs:
 
       - name: Build macOS App
         run: |
-          pyinstaller --onefile --windowed your_script.py
+          pyinstaller --onefile --windowed source_gui.py
 
       - name: Upload macOS App
         uses: actions/upload-artifact@v4
