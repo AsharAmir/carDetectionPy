@@ -28,7 +28,8 @@ jobs:
 
       - name: Build macOS App
         run: |
-          pyinstaller --onefile --windowed source_gui.py
+          export MACOSX_DEPLOYMENT_TARGET=10.14
+          pyinstaller --onefile --windowed --arch x86_64 source_gui.py
 
       - name: Upload macOS App
         uses: actions/upload-artifact@v4
