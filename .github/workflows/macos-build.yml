@@ -4,7 +4,7 @@ on: [push, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-12  # Ensure compatibility with macOS Mojave
 
     steps:
       - name: Checkout repository
@@ -29,7 +29,7 @@ jobs:
       - name: Build macOS App
         run: |
           export MACOSX_DEPLOYMENT_TARGET=10.14
-          pyinstaller --onefile --windowed --arch x86_64 source_gui.py
+          env ARCHFLAGS="-arch x86_64" pyinstaller --onefile --windowed source_gui.py
 
       - name: Upload macOS App
         uses: actions/upload-artifact@v4
